@@ -20,7 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WC_Cart_Rest_API {
 
-	/**
+  protected static $_instance = null;
+
+  protected $controller;
+
+  /**
 	 * Setup class.
 	 *
 	 * @access public
@@ -29,6 +33,13 @@ class WC_Cart_Rest_API {
 		// WC Cart REST API.
 		$this->cart_rest_api_init();
 	} // END __construct()
+
+  public static function instance() {
+    if ( is_null( self::$_instance ) ) {
+      self::$_instance = new self();
+    }
+    return self::$_instance;
+  }
 
 	/**
 	 * Init WC Cart REST API.
@@ -58,6 +69,7 @@ class WC_Cart_Rest_API {
 	private function include_cart_controller() {
 		// REST API v2 controller.
 		include_once( dirname( __FILE__ ) . '/api/class-wc-rest-cart-controller.php' );
+    $this->controller = new WC_REST_Cart_Controller();
 	} // include()
 
 	/**
@@ -67,9 +79,13 @@ class WC_Cart_Rest_API {
 	 * @since  1.0.0
 	 */
 	public function register_cart_routes() {
-		$controller = new WC_REST_Cart_Controller();
-		$controller->register_routes();
+
+		$this->controller->register_routes();
 	} // END register_cart_route
+
+  public function get_controller() {
+	  return $this->controller;
+  }
 
 } // END class
 

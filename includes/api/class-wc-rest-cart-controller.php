@@ -48,7 +48,7 @@ class WC_REST_Cart_Controller {
 			'callback' => array( $this, 'get_cart' ),
 			'args'     => array(
 				'thumb' => array(
-					'default' => null
+					'default' => true
 				),
 			),
 		));
@@ -146,19 +146,23 @@ class WC_REST_Cart_Controller {
 		) );
 	} // register_routes()
 
-	/**
-	 * Get cart.
-	 *
-	 * @access  public
-	 * @since   1.0.0
-	 * @version 1.0.6
-	 * @param   array $data
-	 * @return  WP_REST_Response
-	 */
-	public function get_cart( $data = array() ) {
+  /**
+   * Get cart.
+   *
+   * @access  public
+   * @since   1.0.0
+   * @version 1.0.6
+   * @param   array $data
+   * @param bool $asArray
+   * @return  WP_REST_Response
+   */
+	public function get_cart( $data = array(), $asArray = false ) {
 		$cart = WC()->cart->get_cart();
 
 		if ( $this->get_cart_contents_count( array( 'return' => 'numeric' ) ) <= 0 ) {
+      if ($asArray) {
+        return [];
+      }
 			return new WP_REST_Response( array(), 200 );
 		}
 
@@ -169,6 +173,7 @@ class WC_REST_Cart_Controller {
 
 			// Adds the product name as a new variable.
 			$cart[$item_key]['product_name'] = $_product->get_name();
+			$cart[$item_key]['product_title'] = $_product->get_title();
 
 			// If main product thumbnail is requested then add it to each item in cart.
 			if ( $show_thumb ) {
@@ -180,6 +185,10 @@ class WC_REST_Cart_Controller {
 				$cart[$item_key]['product_image'] = esc_url( $thumbnail_src[0] );
 			}
 		}
+
+		if ($asArray) {
+		  return $cart;
+    }
 
 		return new WP_REST_Response( $cart, 200 );
 	} // END get_cart()
@@ -271,9 +280,9 @@ class WC_REST_Cart_Controller {
 	} // END validate_product()
 
 	/**
-	 * Checks if the product in the cart has enough stock 
+	 * Checks if the product in the cart has enough stock
 	 * before updating the quantity.
-	 * 
+	 *
 	 * @access protected
 	 * @since  1.0.6
 	 * @param  array  $current_data
