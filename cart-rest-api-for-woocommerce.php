@@ -1,9 +1,9 @@
 <?php
 /*
- * Plugin Name: CoCart
+ * Plugin Name: CoCart / Wildlabs
  * Plugin URI:  https://cocart.xyz
  * Description: A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.
- * Author:      Sébastien Dumont
+ * Author:      Sébastien Dumont / Eugen F
  * Author URI:  https://sebastiendumont.com
  * Version:     1.0.7
  * Text Domain: cart-rest-api-for-woocommerce
