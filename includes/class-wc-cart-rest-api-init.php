@@ -70,7 +70,7 @@ class WC_Cart_Rest_API {
 	private function include_cart_controller() {
 		/**
 		 * WooCommerce 3.6+ Compatibility
-		 * 
+		 *
 		 * Cart and notice functions are not included during a REST request.
 		 */
 		if ( version_compare( WC_VERSION, '3.6.0', '>=' ) && WC()->is_rest_api_request() == 'wc/' ) {
@@ -90,7 +90,7 @@ class WC_Cart_Rest_API {
 			}
 
 			/**
-			 * For logged in customers, pull data from their account rather than the 
+			 * For logged in customers, pull data from their account rather than the
 			 * session which may contain incomplete data.
 			 */
 			if ( null === WC()->customer ) {
