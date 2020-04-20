@@ -321,6 +321,12 @@ class WC_REST_Cart_Controller {
 
 			$cart_contents = WC()->cart->cart_contents;
 
+            // Generate a ID based on product ID, variation ID, variation data, and other cart item data.
+            $cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+
+            // Find the cart item key in the existing cart.
+            $cart_item_key = WC()->cart->find_product_in_cart( $cart_id );
+
 			$found_in_cart = apply_filters( 'woocommerce_add_to_cart_sold_individually_found_in_cart', $cart_item_key && $cart_contents[ $cart_item_key ]['quantity'] > 0, $product_id, $variation_id, $cart_item_data, $cart_id );
 
 			if ( $found_in_cart ) {
