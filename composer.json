@@ -1,5 +1,5 @@
 {
-    "name": "co-cart/co-cart",
+    "name": "eugenf/co-cart",
     "description": "A REST-API for WooCommerce that enables the ability to add, view, update and delete items from the cart.",
     "homepage": "https://github.com/co-cart/co-cart",
     "type": "wordpress-plugin",
