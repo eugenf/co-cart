@@ -325,6 +325,11 @@ class WC_REST_Cart_Controller {
 		if ( $quantity <= 0 || ! $product_data || 'trash' === $product_data->get_status() ) {
 			return new WP_Error( 'wc_cart_rest_product_does_not_exist', __( 'Warning: This product does not exist!', 'cart-rest-api-for-woocommerce' ), array( 'status' => 500 ) );
 		}
+        // Generate a ID based on product ID, variation ID, variation data, and other cart item data.
+        $cart_id = WC()->cart->generate_cart_id( $product_id, $variation_id, $variation, $cart_item_data );
+
+        // Find the cart item key in the existing cart.
+        $cart_item_key = WC()->cart->find_product_in_cart( $cart_id );
 
 		// Force quantity to 1 if sold individually and check for existing item in cart.
 		if ( $product_data->is_sold_individually() ) {
